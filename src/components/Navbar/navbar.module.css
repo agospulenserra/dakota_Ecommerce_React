@@ -1,0 +1,71 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ab8f80;
+    padding: 3rem;
+    width: 100%;
+    height: 10vh;
+}
+
+.container p{
+    text-align: center;
+    font-size: 26px;
+    color: #0e0c0b;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.container span{
+    text-align: center;
+    font-size: 26px;
+    color: antiquewhite;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.listaNav{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    align-items: center;
+    width: 40%;
+}
+
+.listaNav li{
+    text-align: center;
+    list-style: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 200ms ease-in;
+}
+
+.listaNav li:hover{
+    color: #571f01;
+    transform: scale(1.1);
+}
+
+.carritoDiv{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    align-items: center;
+    cursor: pointer;
+}
+
+.carritoDiv .pCarrito{
+    font-size: 15px;
+    color: #fff;
+}
+
+.link{
+    text-decoration: none;
+    color: #fff;
+}
+
+.link:hover{
+    color: #571f01;
+}
