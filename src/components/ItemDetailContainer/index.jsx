@@ -2,48 +2,56 @@ import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import db from '../../../db/firebase-config';
+import ItemDetail from '../ItemDetail';
+import Spinner from '../Spinner';
+import styles from './itemDetailContainer.module.css'
+
 
 const ItemDetailContainer = () => {
     
-    const [product, setProduct] = useState([]);
-    const {listId}= useParams();
-    const productRef = doc(db, "items", listId);
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
+  const {id}= useParams();
+  const productRef = doc(db, "items", id);
 
-    const getItems = async () => {
-      try{
+  const getItem = async () => {
+    try{
 
-        const productCollection = await getDoc(productRef);
-        const prodt = productCollection.doc.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setProduct(prodt)
+      const productCollection = await getDoc(productRef);
+      const prodt = { id: productCollection.id, ...productCollection.data() }
+      setProduct(prodt)
 
-      }catch(error) {
+    }catch(error) {
 
-          console.log("ERROR: " + error);
+        console.log("ERROR: " + error);
 
-      }
-        
+    }
+      
   };
 
   useEffect(() => {
 
-    getItems()
+    getItem()
 
-  }, [listId])
+  }, [id]);
+
+  const loadingg = () =>{
+    if (loading) {
+      return <Spinner />;
+    }else{
+      setLoading(false)
+    }
+  }
+  
 
   return (
 
-    <div className={styles.wrapper}>
-
-        {product.map((product) => (
-
-          <ItemDetail key={product.id} product={product}/>
-
-        ))}
-
+    <div className={styles.section}>
+      { !product ? loadingg() : <ItemDetail product={product}/>}
     </div>
 
   )
 
 }
 
-export default ItemDetailContainer
+export default ItemDetailContainer;

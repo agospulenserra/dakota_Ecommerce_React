@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import ItemDetail from '../ItemDetail';
 import styles from './home.module.css'
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../../../db/firebase-config';
+import ItemList from '../ItemList';
 
 const Home = () => {
 
@@ -41,7 +41,7 @@ const Home = () => {
         <h1>Dakota Tienda Online</h1>
         <p>Productos destacados</p>
         <div className={styles.wrapper}>
-          {products.slice(4).map((product) => ( <ItemDetail key={product.id} product={product}/> ))}
+          {products.slice(4).map((product) => ( <ItemList key={product.id} product={product}/> ))}
         </div>
       </section>  
     </div>

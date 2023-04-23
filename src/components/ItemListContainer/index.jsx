@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ItemDetail from "../ItemDetail";
 import styles from './itemListContainer.module.css';
 import db from "../../../db/firebase-config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
+import ItemList from "../ItemList";
 
 
 const ItemListContainer = () => {
@@ -47,7 +47,7 @@ const ItemListContainer = () => {
 
         {products.map((product) => (
 
-          <ItemDetail key={product.id} product={product}/>
+          <ItemList key={product.id} product={product}/>
 
         ))}
 
