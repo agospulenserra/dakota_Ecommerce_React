@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
+import { usarCart } from '../../context/Cart';
 
 const Navbar = ({carritoIcono}) => {
+
+  const { totalProductos } = usarCart()
 
   return (
 
@@ -16,8 +19,10 @@ const Navbar = ({carritoIcono}) => {
           <li>Sobre nosotros</li>
       </ul>
       <div className={styles.carritoDiv}>
+        <Link className={styles.link} to='/cart'>
           <img src={carritoIcono} alt="icono del carrito" width="30" height="30"/>
-          <p className={styles.pCarrito}>(0)</p>
+          <p className={styles.pCarrito}>{totalProductos() || " "}</p>
+        </Link>
       </div>
     </div>
 
