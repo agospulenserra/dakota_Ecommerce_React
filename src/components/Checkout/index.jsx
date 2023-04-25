@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import db from '../../../db/firebase-config';
 import { addDoc } from 'firebase/firestore';
 import { usarCart } from '../../context/Cart';
+import styles from './checkout.module.css';
 
 const Checkout = () => {
 
@@ -49,7 +50,7 @@ const Checkout = () => {
             },
             fecha: fecha
         };
-        await addDoc(db, "Orden", item);
+        await addDoc(db, "orden", item);
         setInputNombre("");
         setInputApellido("");
         setInputTelefono("");
@@ -58,7 +59,7 @@ const Checkout = () => {
     };
   
     return (
-      <form onSubmit={cart.map((product) => handleSubmit(product))}>
+      <form className={styles.contenedor} onSubmit={cart.forEach((product) => handleSubmit(product))}>
         <input
           type="text"
           placeholder="ingresa tu nombre"
