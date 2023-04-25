@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import db from '../../../db/firebase-config';
 import { addDoc } from 'firebase/firestore';
+import { usarCart } from '../../context/Cart';
 
 const Checkout = (key, product, totalPrecio) => {
+
+
     const [inputNombre, setInputNombre] = useState("");
     const [inputApellido, setInputApellido] = useState("");
     const [inputTelefono, setInputTelefono] = useState("");
@@ -25,6 +28,9 @@ const Checkout = (key, product, totalPrecio) => {
         setInputMail2(e.target.value);
     };
 
+    const {totalPrecio} = usarCart()
+    const fecha = new Date()
+    
     const handleSubmit = async(e) => {
         e.preventDefault();
         const item = {
@@ -38,9 +44,10 @@ const Checkout = (key, product, totalPrecio) => {
                 titulo: product.title,
                 cantidad: product.cantidad,
                 precio: product.precio,
-                total: totalPrecio,
+                total: totalPrecio(),
                 id: key
-            }
+            },
+            fecha: fecha
         };
         await addDoc(db, "orden", item);
         setInputNombre("");
