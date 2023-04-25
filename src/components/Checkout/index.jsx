@@ -3,7 +3,7 @@ import db from '../../../db/firebase-config';
 import { addDoc } from 'firebase/firestore';
 import { usarCart } from '../../context/Cart';
 
-const Checkout = (key, product, totalPrecio) => {
+const Checkout = () => {
 
 
     const [inputNombre, setInputNombre] = useState("");
@@ -28,10 +28,10 @@ const Checkout = (key, product, totalPrecio) => {
         setInputMail2(e.target.value);
     };
 
-    const {totalPrecio} = usarCart()
+    const {cart, totalPrecio} = usarCart()
     const fecha = new Date()
     
-    const handleSubmit = async(e) => {
+    const handleSubmit = async(product, e) => {
         e.preventDefault();
         const item = {
             usuario:{
@@ -49,7 +49,7 @@ const Checkout = (key, product, totalPrecio) => {
             },
             fecha: fecha
         };
-        await addDoc(db, "orden", item);
+        await addDoc(db, "Orden", item);
         setInputNombre("");
         setInputApellido("");
         setInputTelefono("");
@@ -58,7 +58,7 @@ const Checkout = (key, product, totalPrecio) => {
     };
   
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={cart.map((product) => handleSubmit(product))}>
         <input
           type="text"
           placeholder="ingresa tu nombre"
