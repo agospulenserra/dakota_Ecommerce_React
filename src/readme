@@ -1,0 +1,7 @@
+import ![image](img/proyectofinalreact.gif)
+
+Esta es la pagina web de una tienda de ropa femenina.
+El usuario puede navegar por la pagina web e ir seleccionando los productos y sus respectivas cantidades.
+Cuando desee realizar la compra, debera dirigirse al carrito, donde tambien puede eliminar los productos, y clickear el boton de finalizar compra.
+Este boton lo llevara al checkout, donde debera ingresar sus datos personales para comprar los productos.
+Por ultimo, cuando ya haya completado sus datos recibira su numero de orden!

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import db from '../../../db/firebase-config';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { usarCart } from '../../context/Cart';
-import styles from './checkout.module.css';
 
 const Checkout = () => {
 
@@ -12,6 +11,7 @@ const Checkout = () => {
     const [inputTelefono, setInputTelefono] = useState("");
     const [inputMail1, setInputMail1] = useState("");
     const [inputMail2, setInputMail2] = useState("");
+    const[orderId, setOrderId]= useState('')
 
     const handleInputNombre = (e) => {
       setInputNombre(e.target.value);
@@ -29,70 +29,68 @@ const Checkout = () => {
         setInputMail2(e.target.value);
     };
 
-    const {cart, totalPrecio} = usarCart()
+    const {cart, totalPrecio, limpiarCarrito} = usarCart()
     const fecha = new Date()
     
-    const handleSubmit = async(product, e) => {
+    const handleSubmit = async( e) => {
         e.preventDefault();
-        const item = {
+        let item = {
             usuario:{
                 nombre: inputNombre,
                 apeliido: inputApellido,
                 telefono: inputTelefono,
                 mail: inputMail1,
             },
-            producto:{
-                titulo: product.title,
-                cantidad: product.cantidad,
-                precio: product.precio,
-                total: totalPrecio(),
-                id: key
-            },
+            producto:cart,
+            total:totalPrecio(),
             fecha: fecha
         };
-        await addDoc(db, "orden", item);
-        setInputNombre("");
-        setInputApellido("");
-        setInputTelefono("");
-        setInputMail1("");
-        setInputMail2("");
+        const ventas = collection(db,"orders")
+       const data =  await addDoc(ventas, item);
+       setOrderId(data.id)
+       limpiarCarrito()
     };
   
     return (
-      <form className={styles.contenedor} onSubmit={cart.forEach((product) => handleSubmit(product))}>
-        <input
-          type="text"
-          placeholder="ingresa tu nombre"
-          onChange={handleInputNombre}
-          value={inputNombre}
-        />
-        <input
-          type="text"
-          placeholder="ingresa tu apellido"
-          onChange={handleInputApellido}
-          value={inputApellido}
-        />
-        <input
-          type="text"
-          placeholder="ingresa tu numero de telefono"
-          onChange={handleInputTelefono}
-          value={inputTelefono}
-        />
-        <input
-          type="text"
-          placeholder="ingresa tu mail"
-          onChange={handleInputMail1}
-          value={inputMail1}
-        />
-        <input
-          type="text"
-          placeholder="ingresa de nuevo tu mail"
-          onChange={handleInputMail2}
-          value={inputMail2}
-        />
-        <button disabled={inputMail1 !== inputMail2} type='submit'>Comprar</button>
-      </form>
+    <>
+    {
+      orderId ? <h2>Muchas gracias por su compra su orden es: {orderId}</h2>
+      : <form onSubmit={ handleSubmit}>
+      <input
+        type="text"
+        placeholder="ingresa tu nombre"
+        onChange={handleInputNombre}
+        value={inputNombre}
+      />
+      <input
+        type="text"
+        placeholder="ingresa tu apellido"
+        onChange={handleInputApellido}
+        value={inputApellido}
+      />
+      <input
+        type="text"
+        placeholder="ingresa tu numero de telefono"
+        onChange={handleInputTelefono}
+        value={inputTelefono}
+      />
+      <input
+        type="text"
+        placeholder="ingresa tu mail"
+        onChange={handleInputMail1}
+        value={inputMail1}
+      />
+      <input
+        type="text"
+        placeholder="ingresa de nuevo tu mail"
+        onChange={handleInputMail2}
+        value={inputMail2}
+      />
+      <button disabled={inputMail1 !== inputMail2} type='submit'>Comprar</button>
+    </form>
+    }
+    </>
     );
 };
 
-export default Checkout
+export default Checkout;

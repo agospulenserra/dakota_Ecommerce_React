@@ -9,7 +9,7 @@ import ItemList from "../ItemList";
 const ItemListContainer = () => {
 
     const [products, setProducts] = useState([]);
-    const {listId}= useParams();
+    const {id}= useParams();
     const productRef = collection(db, "items");
 
     const getItems = async () => {
@@ -18,9 +18,9 @@ const ItemListContainer = () => {
         const productsCollection = await getDocs(productRef);
         const prodts = productsCollection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-        if(listId){
+        if(id){
 
-          setProducts(prodts.filter((product) => product.category == listId))
+          setProducts(prodts.filter((product) => product.category == id))
 
         }else{
         
@@ -39,7 +39,7 @@ const ItemListContainer = () => {
 
     getItems()
 
-  }, [listId])
+  }, [id])
 
   return (
 
